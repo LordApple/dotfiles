@@ -1,0 +1,3 @@
+[submodule ".config/dracula"]
+	path = .config/dracula
+	url = /home/apple/.config/qutebrowser/dracula
