@@ -25,9 +25,6 @@ set tabstop=4
 " Turn on syntax highlighting
 syntax on
 
-" TODO: Pick a leader key
-" let mapleader = ","
-
 " Security
 set modelines=0
 
@@ -64,14 +61,23 @@ runtime! macros/matchit.vim
 nnoremap j gj
 nnoremap k gk
 
+" Move between windows
+nnoremap <C-k> :wincmd k<CR>
+nnoremap <C-j> :wincmd j<CR>
+nnoremap <C-h> :wincmd h<CR>
+nnoremap <C-l> :wincmd l<CR>
+
+" Reduce Split Separator
+highlight VertSplit cterm=none
+
+" Statusline
+set laststatus=2
+
 " Allow hidden buffers
 set hidden
 
 " Rendering
 set ttyfast
-
-" Status bar
-set laststatus=2
 
 " Last line
 set showmode
