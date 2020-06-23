@@ -13,6 +13,10 @@ Plugin 'VundleVim/Vundle.vim'
 
 Plugin 'itchyny/lightline.vim'
 
+Plugin 'xavierd/clang_complete'
+
+Plugin 'octol/vim-cpp-enhanced-highlight'
+
 Plugin 'preservim/nerdtree'
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 
@@ -21,6 +25,15 @@ call vundle#end()            " required
 filetype plugin indent on    " required
 
 set tabstop=4
+
+" Close Preview Buffer when completion is done
+let g:clang_close_preview=1
+
+" Automatically show preview buffer when typing
+let g:clang_auto_select=1
+
+let g:clang_snippets=1
+let g:clang_snippets_engine='clang_complete'
 
 " Turn on syntax highlighting
 syntax on
