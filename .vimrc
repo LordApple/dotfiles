@@ -1,3 +1,5 @@
+
+
 " Don't try to be vi compatible
 set nocompatible
 
@@ -13,9 +15,11 @@ Plugin 'VundleVim/Vundle.vim'
 
 Plugin 'itchyny/lightline.vim'
 
-Plugin 'xavierd/clang_complete'
+Plugin 'alaviss/nim.nvim'
 
-Plugin 'octol/vim-cpp-enhanced-highlight'
+Plugin 'ayu-theme/ayu-vim'
+
+Plugin 'prabirshrestha/asyncomplete.vim'
 
 Plugin 'preservim/nerdtree'
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
@@ -26,17 +30,33 @@ filetype plugin indent on    " required
 
 set tabstop=4
 
-" Close Preview Buffer when completion is done
-let g:clang_close_preview=1
+au User asyncomplete_setup call asyncomplete#register_source({
+    \ 'name': 'nim',
+    \ 'whitelist': ['nim'],
+    \ 'completor': {opt, ctx -> nim#suggest#sug#GetAllCandidates({start, candidates -> asyncomplete#complete(opt['name'], ctx, start, candidates)})}
+    \ })
 
-" Automatically show preview buffer when typing
-let g:clang_auto_select=1
+" Set lightline theme
+let g:lightline = { 'colorscheme': 'ayu_light' }
 
-let g:clang_snippets=1
-let g:clang_snippets_engine='clang_complete'
 
 " Turn on syntax highlighting
 syntax on
+
+" Copy to clipboard
+vnoremap  <leader>y  "+y
+nnoremap  <leader>Y  "+yg_
+nnoremap  <leader>y  "+y
+nnoremap  <leader>yy  "+yy
+
+" Paste from clipboard
+nnoremap <leader>p "+p
+nnoremap <leader>P "+P
+vnoremap <leader>p "+p
+vnoremap <leader>P "+P
+
+" Disables folding
+set nofoldenable 
 
 " Security
 set modelines=0
@@ -54,9 +74,14 @@ set visualbell
 " Encoding
 set encoding=utf-8
 
+" Enable true colors support
+set termguicolors
+let ayucolor="light" 
+colorscheme ayu
+
 " Whitespace
 set wrap
-set textwidth=79
+set textwidth=0
 set formatoptions=tcqrn1
 set tabstop=2
 set shiftwidth=2
@@ -109,11 +134,6 @@ inoremap <F1> <ESC>:set invfullscreen<CR>a
 nnoremap <F1> :set invfullscreen<CR>
 vnoremap <F1> :set invfullscreen<CR>
 
-" Textmate holdouts
-
-" Formatting
-map <leader>q gqip
-
 " Visualize tabs and newlines
 set listchars=tab:▸\ ,eol:¬
 " Uncomment this to enable by default:
@@ -124,6 +144,9 @@ map <leader>l :set list!<CR> " Toggle tabs and EOL
 " Open nerdtree with Ctrl+n
 map <C-n> :NERDTreeToggle<CR>
 
-" Start vim on startup if no file
+" Start nerdtree vim on startup if no file
 autocmd StdinReadPre * let s:std_in=1
 autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif" Auto start nerdreee on startup
+
+" Disable vim default insert status
+set noshowmode
